@@ -121,8 +121,18 @@ function serverLabel(server) {
 // 🔗 LINK / UNLINK / PROFILE HANDLERS
 // ──────────────────────────────────────────────────────────
 
+function formatIgnWithCapital(raw) {
+  if (!raw) return '';
+  const trimmed = raw.trim();
+  const isBedrock = trimmed.startsWith('.');
+  const bare = isBedrock ? trimmed.slice(1) : trimmed;
+  if (!bare) return trimmed;
+  const capitalized = bare.charAt(0).toUpperCase() + bare.slice(1);
+  return (isBedrock ? '.' : '') + capitalized;
+}
+
 async function processLink(interaction, rawIgn, isModal = false) {
-  const cleanIgn = (rawIgn || "").trim();
+  const cleanIgn = formatIgnWithCapital(rawIgn);
 
   // Validate Minecraft IGN: 3-16 chars (Java & Bedrock dot supported)
   if (!cleanIgn || cleanIgn.length < 3 || cleanIgn.length > 16 || !/^[a-zA-Z0-9_.]+$/.test(cleanIgn)) {
