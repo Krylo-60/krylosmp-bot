@@ -173,10 +173,24 @@ async function processLink(interaction, rawIgn, isModal = false) {
       await member.roles.add(rolesToAdd).catch(() => {});
     }
 
-    // Try updating nickname to IGN
+    // Try updating nickname: "Verified | <IGN>", "Mod | <IGN>", "Owner | <IGN>", etc.
+    let prefix = 'Verified';
+    if (member.id === interaction.guild?.ownerId) {
+      prefix = 'Owner';
+    } else if (member.roles.cache.some(r => r.name.toLowerCase().includes('admin'))) {
+      prefix = 'Admin';
+    } else if (member.roles.cache.some(r => r.name.toLowerCase().includes('mod'))) {
+      prefix = 'Mod';
+    } else if (member.roles.cache.some(r => r.name.toLowerCase().includes('booster'))) {
+      prefix = 'Booster';
+    } else if (member.roles.cache.some(r => r.name.toLowerCase().includes('vip'))) {
+      prefix = 'VIP';
+    }
+    const formattedNick = `${prefix} | ${cleanIgn}`.slice(0, 32);
+
     try {
       if (interaction.guild?.members.me?.permissions.has(PermissionFlagsBits.ManageNicknames)) {
-        await member.setNickname(cleanIgn).catch(() => {});
+        await member.setNickname(formattedNick).catch(() => {});
       }
     } catch (_) {}
   }
