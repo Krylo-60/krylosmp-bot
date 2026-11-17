@@ -1,0 +1,23 @@
+{
+  "name": "krylosmp-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "node --watch bot.js",
+    "bot": "node bot.js",
+    "bot:commands": "node deploy-commands.js",
+    "bot:guilds": "node list-guilds.js",
+    "falix:servers": "node list-falix-servers.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
